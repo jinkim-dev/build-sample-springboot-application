@@ -26,3 +26,8 @@ It is an application that helps you to build easily.
 |Mysql|8.0+|
 |vue.js or react.js||
 
+# 1차 시나리오
+1. CI할 application build 정보를 입력한다.
+2. 입력한 application을 build한다.
+3. build한 application을 패키징하여 war파일을 배포한다.
+4. application의 배포 결과를 확인한다.
