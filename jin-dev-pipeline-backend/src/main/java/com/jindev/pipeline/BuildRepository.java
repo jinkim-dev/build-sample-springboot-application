@@ -1,6 +1,6 @@
 package com.jindev.pipeline;
 
-import com.jindev.pipeline.build.Build;
+import com.jindev.pipeline.api.build.Build;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
