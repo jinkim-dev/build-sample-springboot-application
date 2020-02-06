@@ -5,8 +5,9 @@ spring:
       path: /h2
   datasource:
     data: classpath:data.sql
-
 jenkins:
   url: http://localhost:8090
   id: admin
   password: admin
+servlet:
+  context-path: /jindev
