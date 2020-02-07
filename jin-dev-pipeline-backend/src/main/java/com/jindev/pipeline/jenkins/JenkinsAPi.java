@@ -40,7 +40,6 @@ public class JenkinsAPi {
         throw new RuntimeException(ex);
       }
     }
-
     void run() throws E;
   }
 
@@ -53,7 +52,6 @@ public class JenkinsAPi {
         throw new RuntimeException(ex);
       }
     }
-
     T run() throws E;
   }
 }

@@ -15,3 +15,8 @@ INSERT INTO build (id, app_name, description, build_tool, git_address,
 target_server, latest_build_number, latest_build_result) VALUES
 (1, 'jpetstore', 'sample application(jpetstore)', 'maven'
     ,'https://github.com/mybatis/jpetstore-6.git', 'aws', 0, null);
+
+INSERT INTO build (id, app_name, description, build_tool, git_address,
+target_server, latest_build_number, latest_build_result) VALUES
+(2, 'dev', 'sample application(jpetstore)', 'maven'
+    ,'https://github.com/mybatis/jpetstore-6.git', 'aws', 0, null);

@@ -10,13 +10,13 @@ import java.net.URISyntaxException;
 
 @Configuration
 public class JenkinsConfiguration {
-  @Value("jenkins.url")
+  @Value("${jenkins.url}")
   private String jenkinsUrl;
 
-  @Value("jenkins.id")
+  @Value("${jenkins.id}")
   private String jenkinsId;
 
-  @Value("jenkins.password")
+  @Value("${jenkins.password}")
   private String jenkinsPassword;
 
   @Bean
