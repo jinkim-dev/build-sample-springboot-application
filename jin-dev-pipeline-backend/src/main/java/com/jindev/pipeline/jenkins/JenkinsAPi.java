@@ -1,10 +1,12 @@
 package com.jindev.pipeline.jenkins;
 
 import com.offbytwo.jenkins.JenkinsServer;
+import com.offbytwo.jenkins.model.Job;
 import com.offbytwo.jenkins.model.JobWithDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Map;
 
 @Component
 public class JenkinsAPi {
@@ -13,6 +15,10 @@ public class JenkinsAPi {
 
   public JenkinsAPi(JenkinsServer jenkins) {
     this.jenkins = jenkins;
+  }
+
+  public Map<String, Job> getJobs() {
+    return executeWithResult(() -> jenkins.getJobs());
   }
 
   public JobWithDetails getJob(String jobName) {
