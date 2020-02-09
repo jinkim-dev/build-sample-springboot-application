@@ -6,17 +6,10 @@ CREATE TABLE build (
     description VARCHAR(500),
     build_tool VARCHAR(100) NOT NULL,
     git_address VARCHAR(300) NOT NULL,
-    target_server VARCHAR(100) NOT NULL,
-    latest_build_number INT,
-    latest_build_result VARCHAR(100)
+    target_server VARCHAR(100) NOT NULL
 );
 
 INSERT INTO build (id, app_name, description, build_tool, git_address,
-target_server, latest_build_number, latest_build_result) VALUES
+target_server) VALUES
 (1, 'jpetstore', 'sample application(jpetstore)', 'maven'
-    ,'https://github.com/mybatis/jpetstore-6.git', 'aws', 0, null);
-
-INSERT INTO build (id, app_name, description, build_tool, git_address,
-target_server, latest_build_number, latest_build_result) VALUES
-(2, 'dev', 'sample application(jpetstore)', 'maven'
-    ,'https://github.com/mybatis/jpetstore-6.git', 'aws', 0, null);
+    ,'https://github.com/mybatis/jpetstore-6.git', 'aws');

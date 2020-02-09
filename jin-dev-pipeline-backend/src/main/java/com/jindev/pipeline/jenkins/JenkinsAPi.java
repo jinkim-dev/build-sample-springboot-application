@@ -22,7 +22,8 @@ public class JenkinsAPi {
   }
 
   public JobWithDetails getJob(String jobName) {
-    return executeWithResult(() -> jenkins.getJob(jobName));
+    JobWithDetails details = executeWithResult(() -> jenkins.getJob(jobName));
+    return details;
   }
 
   public void run(String jobName, String jobXml) {
