@@ -101,7 +101,7 @@ export default {
       {
         sortable: false,
         text: 'Latest Build',
-        value: 'latestResult'
+        value: 'latestBuildResult'
       },
       {
         sortable: false,
