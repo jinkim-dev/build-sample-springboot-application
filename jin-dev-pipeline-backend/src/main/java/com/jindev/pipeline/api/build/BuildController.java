@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -22,7 +19,6 @@ import java.util.stream.Collectors;
 public class BuildController {
 
   private BuildService buildService;
-
   private ModelMapper modelMapper;
 
   public BuildController(BuildService buildService, ModelMapper modelMapper) {
@@ -30,7 +26,7 @@ public class BuildController {
     this.modelMapper = modelMapper;
   }
 
-  @GetMapping
+  @GetMapping(value = "")
   public Map<String, Object> getList() {
     Map<String, Object> map = new HashMap<>();
     List<Build> builds = buildService.getList();
@@ -58,9 +54,11 @@ public class BuildController {
 
   private BuildDto convertToDto(Build build, JobWithDetails details) {
     BuildDto buildDto = modelMapper.map(build, BuildDto.class);
-    buildDto.setLatestBuildNumber(details.getLastBuild().getNumber());
     try {
-      buildDto.setLatestBuildResult(details.getLastBuild().details().getResult().name());
+      if (details.getLastBuild().getNumber() > -1) {
+        buildDto.setLatestBuildNumber(details.getLastBuild().getNumber());
+        buildDto.setLatestBuildResult(details.getLastBuild().details().getResult().name());
+      }
     } catch (IOException e) {
       log.error(e.getMessage());
     }
