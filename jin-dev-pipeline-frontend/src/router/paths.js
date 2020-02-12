@@ -7,6 +7,11 @@ export default [
   {
     path: '/',
     name: 'Build List',
-    view: 'BuildList'
+    view: 'build/BuildList'
+  },
+  {
+    path: '/build/buildView',
+    name: 'Build View',
+    view: 'build/BuildView'
   }
 ]

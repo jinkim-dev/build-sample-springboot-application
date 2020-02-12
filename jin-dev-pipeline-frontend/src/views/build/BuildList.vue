@@ -38,7 +38,7 @@
               slot="items"
               slot-scope="{ item }"
             >
-              <td>{{ item.appName }}</td>
+              <td><router-link :to="{ path: 'build/buildView', query: { name: item.appName }}">{{ item.appName }}</router-link></td>
               <td>{{ item.buildTool }}</td>
               <td>{{ item.gitAddress }}</td>
               <td>{{ item.targetServer }}</td>
