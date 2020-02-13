@@ -33,6 +33,7 @@
                   <v-text-field
                     class="purple-input"
                     label="User Name"
+                    disabled
                   />
                 </v-col>
 
@@ -43,6 +44,7 @@
                   <v-text-field
                     label="Email Address"
                     class="purple-input"
+                    disabled
                   />
                 </v-col>
 
@@ -53,6 +55,7 @@
                   <v-text-field
                     label="First Name"
                     class="purple-input"
+                    disabled
                   />
                 </v-col>
 
@@ -63,6 +66,7 @@
                   <v-text-field
                     label="Last Name"
                     class="purple-input"
+                    disabled
                   />
                 </v-col>
 
@@ -70,6 +74,7 @@
                   <v-text-field
                     label="Adress"
                     class="purple-input"
+                    disabled
                   />
                 </v-col>
 
@@ -80,6 +85,7 @@
                   <v-text-field
                     label="City"
                     class="purple-input"
+                    disabled
                   />
                 </v-col>
 
@@ -90,6 +96,7 @@
                   <v-text-field
                     label="Country"
                     class="purple-input"
+                    disabled
                   />
                 </v-col>
 
@@ -101,6 +108,7 @@
                     class="purple-input"
                     label="Postal Code"
                     type="number"
+                    disabled
                   />
                 </v-col>
 
@@ -109,6 +117,7 @@
                     class="purple-input"
                     label="About Me"
                     value="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                    disabled
                   />
                 </v-col>
 
