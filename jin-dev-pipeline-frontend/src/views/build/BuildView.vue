@@ -21,9 +21,9 @@
                   md="4"
                 >
                   <v-text-field
-                    label="Company (disabled)"
-                    disabled
-                  />
+                    label="Build Tool"
+                    v-model="buildTool"
+                  ></v-text-field>
                 </v-col>
 
                 <v-col
@@ -44,70 +44,6 @@
                   <v-text-field
                     label="Email Address"
                     class="purple-input"
-                    disabled
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="6"
-                >
-                  <v-text-field
-                    label="First Name"
-                    class="purple-input"
-                    disabled
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="6"
-                >
-                  <v-text-field
-                    label="Last Name"
-                    class="purple-input"
-                    disabled
-                  />
-                </v-col>
-
-                <v-col cols="12">
-                  <v-text-field
-                    label="Adress"
-                    class="purple-input"
-                    disabled
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="4"
-                >
-                  <v-text-field
-                    label="City"
-                    class="purple-input"
-                    disabled
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="4"
-                >
-                  <v-text-field
-                    label="Country"
-                    class="purple-input"
-                    disabled
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="4"
-                >
-                  <v-text-field
-                    class="purple-input"
-                    label="Postal Code"
-                    type="number"
                     disabled
                   />
                 </v-col>
@@ -173,6 +109,13 @@
 
 <script>
   export default {
-  //
+    // data() {
+    //   return {
+    //     buildTool : ''
+    //   }
+    // },
+    mounted() {
+      this.buildTool = 'mount';
+    }
   }
 </script>

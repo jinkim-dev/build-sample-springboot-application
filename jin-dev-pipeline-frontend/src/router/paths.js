@@ -10,6 +10,11 @@ export default [
     view: 'build/BuildList'
   },
   {
+    path: '/',
+    name: 'Build Create',
+    view: 'build/BuildCreate'
+  },
+  {
     path: '/build/buildView',
     name: 'Build View',
     view: 'build/BuildView'
