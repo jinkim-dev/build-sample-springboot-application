@@ -3,6 +3,7 @@ package com.jindev.pipeline.jenkins;
 import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.model.Job;
 import com.offbytwo.jenkins.model.JobWithDetails;
+import com.offbytwo.jenkins.model.QueueReference;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -22,24 +23,27 @@ public class JenkinsAPi {
   }
 
   public JobWithDetails getJob(String jobName) {
-    JobWithDetails details = executeWithResult(() -> jenkins.getJob(jobName));
-    return details;
+    return executeWithResult(() -> jenkins.getJob(jobName));
   }
 
-  public void run(String jobName, String jobXml) {
+  public void createJob(String jobName, String jobXml) {
     execute(() -> jenkins.createJob(jobName, jobXml));
   }
 
-  public void execute(Executor executor) {
+  public QueueReference build(Job job) {
+    return executeWithResult(() -> job.build());
+  }
+
+  private void execute(Executor executor) {
     executor.exec();
   }
 
-  public <R> R executeWithResult(ExecutorWithResult executor) {
+  private <R> R executeWithResult(ExecutorWithResult executor) {
     return (R) executor.exec();
   }
 
   @FunctionalInterface
-  public interface Executor<E extends IOException> {
+  private interface Executor<E extends IOException> {
     default void exec() throws RuntimeException {
       try {
         run();
@@ -52,7 +56,7 @@ public class JenkinsAPi {
 
   @FunctionalInterface
   public interface ExecutorWithResult<T, E extends IOException> {
-    default <T> T exec() throws RuntimeException {
+    default T exec() throws RuntimeException {
       try {
         return (T) run();
       } catch (Exception ex) {

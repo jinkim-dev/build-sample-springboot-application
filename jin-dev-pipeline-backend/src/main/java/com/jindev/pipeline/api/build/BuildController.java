@@ -1,6 +1,7 @@
 package com.jindev.pipeline.api.build;
 
 import com.offbytwo.jenkins.model.JobWithDetails;
+import com.offbytwo.jenkins.model.QueueReference;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -42,14 +43,22 @@ public class BuildController {
     return map;
   }
 
-  @GetMapping("/{buildId}")
-  public ResponseEntity<Map<String, Object>> get(@PathVariable int buildId) {
+  @GetMapping("/{buildName}")
+  public ResponseEntity<Map<String, Object>> get(@PathVariable String buildName) {
     Map<String, Object> map = new HashMap<>();
-    Build build = buildService.get(buildId);
-    JobWithDetails details = buildService.getJob(build.getAppName());
+    Build build = buildService.get(buildName);
+    JobWithDetails details = buildService.getJob(buildName);
     BuildDto buildDto = Optional.ofNullable(build).map(b -> convertToDto(b, details)).orElse(null);
     map.put("build", buildDto);
     return ResponseEntity.ok(map);
+  }
+
+  @GetMapping("/{buildName}/build")
+  public Map<String, Object> build(@PathVariable String buildName) {
+    Map<String, Object> map = new HashMap<>();
+    QueueReference queueReference = buildService.build(buildName);
+    map.put("result", queueReference);
+    return map;
   }
 
   private BuildDto convertToDto(Build build, JobWithDetails details) {
@@ -65,19 +74,4 @@ public class BuildController {
     return buildDto;
   }
 
-  // test
-  //    @GetMapping("/{build}/run")
-  //    public Map<String, Object> run() {
-  //        Map<String, Object> map = new HashMap<>();
-  //        map.put("test", "/{build}");
-  //        return map;
-  //    }
-
-  // test
-  //    @GetMapping("/{build}/jobs")
-  //    public Map<String, Object> getJobs() {
-  //        Map<String, Object> map = new HashMap<>();
-  //        map.put("test", "/{build}/jobs");
-  //        return map;
-  //    }
 }

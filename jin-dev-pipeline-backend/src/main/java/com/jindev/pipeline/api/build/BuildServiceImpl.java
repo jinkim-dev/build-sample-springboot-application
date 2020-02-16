@@ -1,13 +1,13 @@
 package com.jindev.pipeline.api.build;
 
 import com.jindev.pipeline.jenkins.JenkinsAPi;
-import com.offbytwo.jenkins.model.Job;
 import com.offbytwo.jenkins.model.JobWithDetails;
+import com.offbytwo.jenkins.model.QueueReference;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Validated
@@ -28,17 +28,17 @@ public class BuildServiceImpl implements BuildService {
   }
 
   @Override
-  public Build get(long buildId) {
-    return buildDao.findById(buildId).orElse(null);
-  }
-
-  @Override
-  public int run(long buildId) {
-    return 0;
+  public Build get(String buildName) {
+    return buildDao.findByAppName(buildName).orElse(null);
   }
 
   @Override
   public JobWithDetails getJob(String jobName) {
     return jenkinsAPi.getJob(jobName);
+  }
+
+  @Override
+  public QueueReference build(String jobName) {
+    return Optional.ofNullable(getJob(jobName)).map(jenkinsAPi::build).orElse(null);
   }
 }

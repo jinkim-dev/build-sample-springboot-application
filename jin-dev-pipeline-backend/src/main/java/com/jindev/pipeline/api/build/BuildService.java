@@ -1,12 +1,13 @@
 package com.jindev.pipeline.api.build;
 
 import com.offbytwo.jenkins.model.JobWithDetails;
+import com.offbytwo.jenkins.model.QueueReference;
 
 import java.util.List;
 
 public interface BuildService {
     List<Build> getList();
-    Build get(long buildId);
-    int run(long buildId);
+    Build get(String buildName);
     JobWithDetails getJob(String jobName);
+    QueueReference build(String jobName);
 }
