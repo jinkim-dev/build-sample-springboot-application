@@ -12,6 +12,7 @@
           color="green"
           title="Edit Profile"
           text="Complete your profile"
+          v-model="name"
         >
           <v-form>
             <v-container class="py-0">
@@ -23,6 +24,7 @@
                   <v-text-field
                     label="Build Tool"
                     v-model="buildTool"
+                    disabled
                   ></v-text-field>
                 </v-col>
 
@@ -109,12 +111,14 @@
 
 <script>
   export default {
-    // data() {
-    //   return {
-    //     buildTool : ''
-    //   }
-    // },
+    data() {
+      return {
+        name: '',
+        buildTool : ''
+      }
+    },
     mounted() {
+      this.name='test';
       this.buildTool = 'mount';
     }
   }

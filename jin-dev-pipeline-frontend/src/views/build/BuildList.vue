@@ -12,7 +12,7 @@
         md12
       >
       <div dir="rtl">
-          <v-btn small color="teal" @click="$router.push('/save-build')">Add Build Info</v-btn>
+          <v-btn small color="teal" @click="$router.push('/build/BuildCreate')">Add Build Info</v-btn>
       </div>
         <material-card
           color="green"
