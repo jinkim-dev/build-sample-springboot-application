@@ -5,12 +5,11 @@ import com.offbytwo.jenkins.model.QueueReference;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.Response;
 import java.io.IOException;
+import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -53,6 +52,13 @@ public class BuildController {
     return ResponseEntity.ok(map);
   }
 
+  @PostMapping
+  public ResponseEntity.BodyBuilder save(Build build) {
+    Map<String, Object> map = new HashMap<>();
+    map.put("build", buildService.save(build));
+    return ResponseEntity.created(URI.create("/jindev/builds/" + build.getAppName()));
+  }
+
   @GetMapping("/{buildName}/build")
   public Map<String, Object> build(@PathVariable String buildName) {
     Map<String, Object> map = new HashMap<>();
@@ -73,5 +79,4 @@ public class BuildController {
     }
     return buildDto;
   }
-
 }

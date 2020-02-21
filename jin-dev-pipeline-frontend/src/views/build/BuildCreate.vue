@@ -68,7 +68,7 @@
                   cols="12"
                   md="4"
                   >
-                  <v-btn color="success">
+                  <v-btn color="success" @click="save">
                     Save
                   </v-btn>
                 </v-col>
@@ -82,7 +82,23 @@
 </template>
 
 <script>
+  import axios from "axios";
   export default {
-  //
+    methods: {
+      save() {
+        axios.post('http://localhost:8080/jindev/builds', {
+          appName : this.appName,
+          description : this.description,
+          buildTool : this.buildTool,
+          gitAddress : this.gitAddress,
+          targetServer : this.targetServer
+        })
+        .then(response => {
+          window.location.href = '/';
+        }).catch(function(error) {
+          console.log(error);
+        })
+      }
+    }
   }
 </script>

@@ -33,6 +33,11 @@ public class BuildServiceImpl implements BuildService {
   }
 
   @Override
+  public Build save(Build build) {
+    return buildDao.save(build);
+  }
+
+  @Override
   public JobWithDetails getJob(String jobName) {
     return jenkinsAPi.getJob(jobName);
   }
