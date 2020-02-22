@@ -7,10 +7,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
 import java.io.IOException;
 import java.net.URI;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -53,9 +55,10 @@ public class BuildController {
   }
 
   @PostMapping
-  public ResponseEntity.BodyBuilder save(Build build) {
+  public ResponseEntity.BodyBuilder save(@RequestBody Build build) {
     Map<String, Object> map = new HashMap<>();
     map.put("build", buildService.save(build));
+    buildService.createJob(build.getAppName());
     return ResponseEntity.created(URI.create("/jindev/builds/" + build.getAppName()));
   }
 

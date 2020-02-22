@@ -3,9 +3,14 @@ package com.jindev.pipeline.api.build;
 import com.jindev.pipeline.jenkins.JenkinsAPi;
 import com.offbytwo.jenkins.model.JobWithDetails;
 import com.offbytwo.jenkins.model.QueueReference;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +40,18 @@ public class BuildServiceImpl implements BuildService {
   @Override
   public Build save(Build build) {
     return buildDao.save(build);
+  }
+
+  @Override
+  public void createJob(String jobName) {
+    ClassPathResource resource = new ClassPathResource("/templates/jenkins/config.xml");
+    try {
+      Path path = Paths.get(resource.getURI());
+      String jobXml = new String(Files.readAllBytes(path));
+      jenkinsAPi.createJob(jobName, jobXml);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override

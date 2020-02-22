@@ -9,6 +9,7 @@ public interface BuildService {
     List<Build> getList();
     Build get(String buildName);
     Build save(Build build);
+    void createJob(String jobName);
     JobWithDetails getJob(String jobName);
     QueueReference build(String jobName);
 }
