@@ -59,7 +59,7 @@ public class BuildControllerTest {
 
   @Test
   public void buildShouldReturnMessageFromService() throws Exception {
-    Mockito.when(buildService.get("jpetstoe")).thenReturn(build);
+    Mockito.when(buildService.get("jpetstore")).thenReturn(build);
     Mockito.when(buildService.getJob(build.getAppName())).thenReturn(details);
     mockMvc
         .perform(MockMvcRequestBuilders.get("/builds/1"))
