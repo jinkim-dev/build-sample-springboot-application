@@ -12,7 +12,6 @@
           color="green"
           title="Edit Profile"
           text="Complete your profile"
-          v-model="name"
         >
           <v-form>
             <v-container class="py-0">
@@ -34,7 +33,8 @@
                 >
                   <v-text-field
                     class="purple-input"
-                    label="User Name"
+                    label="Git Address"
+                    v-model="gitAddress"
                     disabled
                   />
                 </v-col>
@@ -44,8 +44,9 @@
                   md="4"
                 >
                   <v-text-field
-                    label="Email Address"
+                    label="target Server"
                     class="purple-input"
+                    v-model="targetServer"
                     disabled
                   />
                 </v-col>
@@ -53,8 +54,8 @@
                 <v-col cols="12">
                   <v-textarea
                     class="purple-input"
-                    label="About Me"
-                    value="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                    label="Description"
+                    v-model="description"
                     disabled
                   />
                 </v-col>
@@ -110,16 +111,34 @@
 </template>
 
 <script>
+  import axios from "axios";
+
   export default {
     data() {
       return {
-        name: '',
-        buildTool : ''
+        appName: '',
+        description : '',
+        buildTool : '',
+        gitAddress : '',
+        targetServer : ''
       }
     },
     mounted() {
-      this.name='test';
-      this.buildTool = 'mount';
+      var name = this.$route.query.name;
+
+      axios.get(`http://localhost:8080/jindev/builds/${name}`)
+        .then(response => {
+          console.info(response);
+          var build = response.data.build;
+          this.appName = build.appName;
+          this.description = build.description;
+          this.buildTool = build.buildTool;
+          this.gitAddress = build.gitAddress;
+          this.targetServer = build.targetServer;
+        })
+        .catch(function(error) {
+          console.log(error);
+        })
     }
   }
 </script>
