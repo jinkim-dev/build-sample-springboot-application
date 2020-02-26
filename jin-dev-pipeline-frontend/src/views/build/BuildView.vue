@@ -10,8 +10,8 @@
       >
         <material-card
           color="green"
-          title="Edit Profile"
-          text="Complete your profile"
+          v-bind:title="appName"
+          text="Check the build information and the job list."
         >
           <v-form>
             <v-container class="py-0">
@@ -84,25 +84,20 @@
             size="130"
           >
             <img
-              src="https://demos.creative-tim.com/vue-material-dashboard/img/marc.aba54d65.jpg"
+              src="../../../public/history.png"
             >
           </v-avatar>
+
+          
           <v-card-text class="text-center">
-            <h6 class="overline mb-3">
-              CEO / CO-FOUNDER
-            </h6>
 
             <h4 class="font-weight-light">
-              Alec Thompson
+              History
             </h4>
 
             <p class="font-weight-light">
               Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
             </p>
-
-            <v-btn color="success">
-              Follow
-            </v-btn>
           </v-card-text>
         </material-card>
       </v-col>
