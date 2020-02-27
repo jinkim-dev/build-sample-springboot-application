@@ -75,7 +75,7 @@
       </v-col>
       <v-col
         cols="12"
-        md="4"
+        md="12"
       >
         <material-card class="v-card-profile">
           <v-avatar
@@ -98,6 +98,30 @@
             <p class="font-weight-light">
               Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
             </p>
+
+            <v-data-table
+              :headers="headers"
+              :items="items"
+              hide-actions
+            >
+              <template
+                slot="headerCell"
+                slot-scope="{ header }"
+              >
+                <span
+                  class="subheading font-weight-light text-success text--darken-3"
+                  v-text="header.text"
+                />
+              </template>
+              <template
+                slot="items"
+                slot-scope="{ item }"
+              >
+                <td>{{ item.number }}</td>
+                <td>{{ item.status }}</td>
+                <td>{{ item.buildDate }}</td>
+              </template>
+            </v-data-table>
           </v-card-text>
         </material-card>
       </v-col>
@@ -109,15 +133,37 @@
   import axios from "axios";
 
   export default {
-    data() {
-      return {
+    data: () => ({
+      headers: [
+      {
+        sortable: false,
+        text: 'Number',
+        value: 'number'
+      },
+      {
+        sortable: false,
+        text: 'Status',
+        value: 'status'
+      },
+      {
+        sortable: false,
+        text: 'Build Date',
+        value: 'buildDate'
+      }
+    ],
+    items: [
+      {
+        number: '1',
+        status: 'SUCCESS',
+        buildDate: '2020-01-01'
+      }
+    ],
         appName: '',
         description : '',
         buildTool : '',
         gitAddress : '',
         targetServer : ''
-      }
-    },
+    }),
     mounted() {
       var name = this.$route.query.name;
 
