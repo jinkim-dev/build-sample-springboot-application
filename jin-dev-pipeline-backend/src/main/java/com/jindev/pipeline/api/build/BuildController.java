@@ -1,5 +1,6 @@
 package com.jindev.pipeline.api.build;
 
+import com.offbytwo.jenkins.model.BuildWithDetails;
 import com.offbytwo.jenkins.model.JobWithDetails;
 import com.offbytwo.jenkins.model.QueueReference;
 import lombok.extern.slf4j.Slf4j;
@@ -9,10 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -72,14 +70,35 @@ public class BuildController {
 
   private BuildDto convertToDto(Build build, JobWithDetails details) {
     BuildDto buildDto = modelMapper.map(build, BuildDto.class);
-    try {
-      if (details.getLastBuild().getNumber() > -1) {
-        buildDto.setLatestBuildNumber(details.getLastBuild().getNumber());
+    if (details.getLastBuild().getNumber() > -1) {
+      buildDto.setLatestBuildNumber(details.getLastBuild().getNumber());
+      // TODO: exception handler
+      try {
         buildDto.setLatestBuildResult(details.getLastBuild().details().getResult().name());
+      } catch (IOException e) {
+        log.error(e.getMessage());
       }
-    } catch (IOException e) {
-      log.error(e.getMessage());
+      List<BuildWithDetailsDto> detailsDtos =
+          details.getBuilds().stream()
+              .map(
+                  b -> {
+                    try {
+                      return b.details();
+                    } catch (IOException e) {
+                      log.error(e.getMessage());
+                    }
+                    return null;
+                  })
+              .filter(Objects::nonNull)
+              .map(this::convertToDetailDto)
+              .collect(Collectors.toList());
+      buildDto.setBuilds(detailsDtos);
     }
     return buildDto;
+  }
+
+  private BuildWithDetailsDto convertToDetailDto(BuildWithDetails details) {
+    BuildWithDetailsDto detailsDto = modelMapper.map(details, BuildWithDetailsDto.class);
+    return detailsDto;
   }
 }
