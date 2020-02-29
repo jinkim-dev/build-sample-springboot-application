@@ -117,9 +117,10 @@
                 slot="items"
                 slot-scope="{ item }"
               >
-                <td>{{ item.number }}</td>
-                <td>{{ item.status }}</td>
-                <td>{{ item.buildDate }}</td>
+                <td>{{ item.displayName }}</td>
+                <td>{{ item.building? 'Building' : 'Finished' }}</td>
+                <td>{{ item.duration / 1000 + ' sec' }}</td>
+                <td>{{ item.result }}</td>                
               </template>
             </v-data-table>
           </v-card-text>
@@ -137,36 +138,34 @@
       headers: [
       {
         sortable: false,
-        text: 'Number',
-        value: 'number'
+        text: 'Name',
+        value: 'displayName'
       },
       {
         sortable: false,
-        text: 'Status',
-        value: 'status'
+        text: 'Building',
+        value: 'building'
       },
       {
         sortable: false,
-        text: 'Build Date',
-        value: 'buildDate'
-      }
-    ],
-    items: [
+        text: 'Duration',
+        value: 'duration'
+      },
       {
-        number: '1',
-        status: 'SUCCESS',
-        buildDate: '2020-01-01'
+        sortable: false,
+        text: 'Result',
+        value: 'result'
       }
     ],
-        appName: '',
-        description : '',
-        buildTool : '',
-        gitAddress : '',
-        targetServer : ''
+    items: [],
+    appName: '',
+    description : '',
+    buildTool : '',
+    gitAddress : '',
+    targetServer : ''
     }),
     mounted() {
       var name = this.$route.query.name;
-
       axios.get(`http://localhost:8080/jindev/builds/${name}`)
         .then(response => {
           console.info(response);
@@ -176,6 +175,7 @@
           this.buildTool = build.buildTool;
           this.gitAddress = build.gitAddress;
           this.targetServer = build.targetServer;
+          this.items = build.builds;
         })
         .catch(function(error) {
           console.log(error);
