@@ -1,6 +1,5 @@
 <template>
   <v-container
-    fill-height
     fluid
   >
     <v-row justify="center">
@@ -64,9 +63,21 @@
                   cols="12"
                   class="text-right"
                 >
-                  <v-btn color="success">
-                    Update Profile
+                  <v-btn color="success" @click="build">
+                    Build
                   </v-btn>
+                  <v-snackbar
+                    v-model="snackbar"
+                  >
+                    Buildling...
+                    <v-btn
+                      color="pink"
+                      text
+                      @click="snackbar = false"
+                    >
+                      Close
+                    </v-btn>
+                  </v-snackbar>
                 </v-col>
               </v-row>
             </v-container>
@@ -75,9 +86,9 @@
       </v-col>
       <v-col
         cols="12"
-        md="12"
+        md="8"
       >
-        <material-card class="v-card-profile">
+        <material-card>
           <v-avatar
             slot="offset"
             class="mx-auto d-block elevation-6"
@@ -92,12 +103,8 @@
           <v-card-text class="text-center">
 
             <h4 class="font-weight-light">
-              History
+              Build History
             </h4>
-
-            <p class="font-weight-light">
-              Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
-            </p>
 
             <v-data-table
               :headers="headers"
@@ -162,7 +169,8 @@
     description : '',
     buildTool : '',
     gitAddress : '',
-    targetServer : ''
+    targetServer : '',
+    snackbar : false,
     }),
     mounted() {
       var name = this.$route.query.name;
@@ -180,6 +188,18 @@
         .catch(function(error) {
           console.log(error);
         })
+    },
+    methods : {
+      build() {
+        console.info('build');
+        axios.get(`http://localhost:8080/jindev/builds/${this.appName}/build`)
+        .then(response => {
+          this.snackbar = true;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      }
     }
   }
 </script>

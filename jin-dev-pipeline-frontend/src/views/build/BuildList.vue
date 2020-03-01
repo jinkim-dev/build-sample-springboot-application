@@ -53,12 +53,12 @@
                   </v-icon>
                   <v-icon
                     small
-                    @click="editItem(item)"
+                    @click.stop="runDialog = true"
                   >mdi-pencil
                   </v-icon> 
                   <v-icon
                     small
-                    @click="deleteItem(item)"
+                    @click="confirmDelete(item)"
                   >
                     mdi-delete
                   </v-icon>
@@ -67,6 +67,62 @@
             </template>
           </v-data-table>
         </material-card>
+        <v-dialog
+        v-model="runDialog"
+        max-width="290"
+        >
+          <v-card>
+            <v-card-title class="headline"></v-card-title>
+            <v-card-text>
+              Are you sure you want to build?
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="green darken-1"
+                text
+                @click="runDialog = false"
+              >
+                No
+              </v-btn>
+              <v-btn
+                color="green darken-1"
+                text
+                @click="runDialog = false"
+              >
+                Yes
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-dialog
+          v-model="deleteDialog"
+          max-width="290"
+        >
+          <v-card>
+            <v-card-title class="headline"></v-card-title>
+            <v-card-text>
+              Are you sure you want to delete this build info?
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="green darken-1"
+                text
+                @click="deleteDialog = false"
+              >
+                No
+              </v-btn>
+              <v-btn
+                color="green darken-1"
+                text
+                @click="deleteBuild"
+              >
+                Yes
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-flex>
     </v-layout>
   </v-container>
@@ -109,7 +165,10 @@ export default {
         value: 'action'
       }
     ],
-    items: []
+    items: [],
+    runDialog: false,
+    deleteDialog: false,
+    deleteItem: {}
   }),
   mounted() {
     axios.get('http://localhost:8080/jindev/builds')
@@ -131,9 +190,16 @@ export default {
       const index = this.items.indexOf(item)
       confirm('Are you sure you want to build?')
     },
-    deleteItem (item) {
-      const index = this.items.indexOf(item)
-      confirm('Are you sure you want to delete this build info?') && this.items.splice(index, 1)
+    confirmDelete (item) {
+      this.deleteDialog = true;
+      this.deleteItem = item;
+    },
+    deleteBuild () {
+      console.info('deleteItem');
+      const index = this.items.indexOf(this.deleteItem);
+      this.deleteDialog = false;
+      this.items.splice(index, 1);
+      // confirm('Are you sure you want to delete this build info?') && this.items.splice(index, 1)
     }
   }
 }
