@@ -66,6 +66,11 @@ public class BuildServiceImpl implements BuildService {
   }
 
   @Override
+  public void deleteById(long id) {
+    buildDao.deleteById(id);
+  }
+
+  @Override
   public JobWithDetails getJob(String jobName) {
     return jenkinsAPi.getJob(jobName);
   }

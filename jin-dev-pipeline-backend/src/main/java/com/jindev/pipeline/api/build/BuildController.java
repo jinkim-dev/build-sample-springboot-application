@@ -53,11 +53,17 @@ public class BuildController {
   }
 
   @PostMapping
-  public ResponseEntity.BodyBuilder save(@RequestBody Build build) {
+  public ResponseEntity save(@RequestBody Build build) {
     Map<String, Object> map = new HashMap<>();
     map.put("build", buildService.save(build));
     buildService.createJob(build.getAppName());
-    return ResponseEntity.created(URI.create("/jindev/builds/" + build.getAppName()));
+    return ResponseEntity.created(URI.create("/jindev/builds/" + build.getAppName())).build();
+  }
+
+  @DeleteMapping("/{buildId}")
+  public ResponseEntity delete(@PathVariable long buildId) {
+    buildService.deleteById(buildId);
+    return ResponseEntity.ok().build();
   }
 
   @GetMapping("/{buildName}/build")

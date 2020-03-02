@@ -13,9 +13,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf()
-        .disable()
-        .authorizeRequests()
-        .antMatchers("/jindev/builds/{build}/**")
-        .access("@pathVariableValidator.accessTest(authentication, #build)");
+        .disable();
+//        .authorizeRequests()
+//        .antMatchers("/jindev/builds/{build}/**")
+//        .access("@pathVariableValidator.accessTest(authentication, #build)");
   }
 }
