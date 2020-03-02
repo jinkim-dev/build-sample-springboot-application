@@ -123,6 +123,18 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <v-snackbar
+          v-model="snackbar"
+        >
+          {{ message }}
+          <v-btn
+            color="pink"
+            text
+            @click="snackbar = false"
+          >
+            Close
+          </v-btn>
+        </v-snackbar>
       </v-flex>
     </v-layout>
   </v-container>
@@ -168,7 +180,9 @@ export default {
     items: [],
     runDialog: false,
     deleteDialog: false,
-    deleteItem: {}
+    deleteItem: {},
+    snackbar: false,
+    message: ''
   }),
   mounted() {
     axios.get('http://localhost:8080/jindev/builds')
@@ -195,11 +209,16 @@ export default {
       this.deleteItem = item;
     },
     deleteBuild () {
-      console.info('deleteItem');
-      const index = this.items.indexOf(this.deleteItem);
-      this.deleteDialog = false;
-      this.items.splice(index, 1);
-      // confirm('Are you sure you want to delete this build info?') && this.items.splice(index, 1)
+      axios.delete(`http://localhost:8080/jindev/builds/${this.deleteItem.id}`)
+          .then(() => {
+            const index = this.items.indexOf(this.deleteItem);
+            this.deleteDialog = false;
+            this.message = 'Deletion succeeded.';
+            this.snackbar = true;
+            this.items.splice(index, 1);
+          }).catch((error) => {
+            console.info(error);
+          })
     }
   }
 }
