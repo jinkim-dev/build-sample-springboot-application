@@ -43,7 +43,7 @@
               <td>{{ item.gitAddress }}</td>
               <td>{{ item.targetServer }}</td>
               <td>
-                <v-icon>{{ getLatestResult(item.latestBuild) }}</v-icon>{{ item.latestBuild }}</td>
+                <v-icon>{{ getLatestResult(item.latestBuildResult) }}</v-icon>{{ item.latestBuild }}</td>
               <td>
                 <template v-slot:item.action="{ item }">
                   <v-icon
@@ -168,7 +168,7 @@ export default {
       },
       {
         sortable: false,
-        text: 'Latest Build',
+        text: 'Latest Build Reulst',
         value: 'latestBuildResult'
       },
       {
@@ -195,7 +195,7 @@ export default {
   },
   methods: {
     getLatestResult(result) {
-      return result === 'Success' ? 'mdi-check' : 'mdi-close'
+      return result === 'SUCCESS'? 'mdi-check' : 'mdi-close'
     },
     build () {
       window.location.href = "/build-save"
