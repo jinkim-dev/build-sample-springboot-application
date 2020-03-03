@@ -9,7 +9,7 @@
       >
         <material-card
           color="green"
-          v-bind:title="appName"
+          :title="appName"
           text="Check the build information and the job list."
         >
           <v-form>
