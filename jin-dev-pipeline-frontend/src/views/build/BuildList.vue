@@ -48,12 +48,12 @@
                 <template v-slot:item.action="{ item }">
                   <v-icon
                     small
-                    @click="build(item)"
+                    @click="confirmBuild(item)"
                   >mdi-arrow-right-drop-circle-outline
                   </v-icon>
                   <v-icon
                     small
-                    @click.stop="runDialog = true"
+                    @click="$router.push({name: 'BuildUpdate', query: { name: item.appName }})"
                   >mdi-pencil
                   </v-icon> 
                   <v-icon
@@ -68,7 +68,7 @@
           </v-data-table>
         </material-card>
         <v-dialog
-        v-model="runDialog"
+        v-model="buildDialog"
         max-width="290"
         >
           <v-card>
@@ -81,14 +81,14 @@
               <v-btn
                 color="green darken-1"
                 text
-                @click="runDialog = false"
+                @click.stop="buildDialog = false"
               >
                 No
               </v-btn>
               <v-btn
                 color="green darken-1"
                 text
-                @click="runDialog = false"
+                @click="build"
               >
                 Yes
               </v-btn>
@@ -178,8 +178,9 @@ export default {
       }
     ],
     items: [],
-    runDialog: false,
+    buildDialog: false,
     deleteDialog: false,
+    buildItem: {},
     deleteItem: {},
     snackbar: false,
     message: ''
@@ -197,16 +198,17 @@ export default {
     getLatestResult(result) {
       return result === 'SUCCESS'? 'mdi-check' : 'mdi-close'
     },
-    build () {
-      window.location.href = "/build-save"
-    },
-    editItem (item) {
-      const index = this.items.indexOf(item)
-      confirm('Are you sure you want to build?')
-    },
-    confirmDelete (item) {
-      this.deleteDialog = true;
-      this.deleteItem = item;
+    build() {
+      
+      axios.get(`http://localhost:8080/jindev/builds/${this.buildItem.appName}/build`)
+      .then(response => {
+        this.buildDialog = false;
+        this.message = 'Building...';
+        this.snackbar = true;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
     },
     deleteBuild () {
       axios.delete(`http://localhost:8080/jindev/builds/${this.deleteItem.id}`)
@@ -219,6 +221,14 @@ export default {
           }).catch((error) => {
             console.info(error);
           })
+    },
+    confirmBuild (item) {
+      this.buildDialog = true;
+      this.buildItem = item;
+    },
+    confirmDelete (item) {
+      this.deleteDialog = true;
+      this.deleteItem = item;
     }
   }
 }

@@ -13,6 +13,8 @@ import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.xml.ws.Response;
+
 @Slf4j
 @RestController
 @RequestMapping("/builds")
@@ -60,6 +62,14 @@ public class BuildController {
     return ResponseEntity.created(URI.create("/jindev/builds/" + build.getAppName())).build();
   }
 
+  @PutMapping("/{buildName}")
+  public ResponseEntity update(@PathVariable String buildName, @RequestBody Build build) {
+    Map<String, Object> map = new HashMap<>();
+    build.setAppName(buildName);
+    buildService.modify(build);
+    return ResponseEntity.ok().build();
+  }
+
   @DeleteMapping("/{buildId}")
   public ResponseEntity delete(@PathVariable long buildId) {
     buildService.deleteById(buildId);
@@ -80,6 +90,7 @@ public class BuildController {
       buildDto.setLatestBuildNumber(details.getLastBuild().getNumber());
       // TODO: exception handler
       try {
+        log.info("details : " + details.getLastBuild().details().toString());
         buildDto.setLatestBuildResult(details.getLastBuild().details().getResult().name());
       } catch (IOException e) {
         log.error(e.getMessage());
@@ -104,7 +115,6 @@ public class BuildController {
   }
 
   private BuildWithDetailsDto convertToDetailDto(BuildWithDetails details) {
-    BuildWithDetailsDto detailsDto = modelMapper.map(details, BuildWithDetailsDto.class);
-    return detailsDto;
+    return modelMapper.map(details, BuildWithDetailsDto.class);
   }
 }

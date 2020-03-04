@@ -6,17 +6,22 @@
 export default [
   {
     path: '/',
-    name: 'Build List',
+    name: 'BuildList',
     view: 'build/BuildList'
   },
   {
     path: '/build/BuildCreate',
-    name: 'Build Create',
+    name: 'BuildCreate',
     view: 'build/BuildCreate'
   },
   {
+    path: '/build/BuildUpdate',
+    name: 'BuildUpdate',
+    view: 'build/BuildUpdate'
+  },
+  {
     path: '/build/buildView',
-    name: 'Build View',
+    name: 'BuildView',
     view: 'build/BuildView'
   }
 ]

@@ -23,6 +23,7 @@
                   <v-text-field
                     class="purple-input"
                     label="App Name"
+                    v-model="appName"
                   />
                 </v-col>
 
@@ -33,6 +34,7 @@
                   <v-text-field
                     class="purple-input"
                     label="Description"
+                    v-model="description"
                   />
                 </v-col>
 
@@ -43,6 +45,7 @@
                   <v-text-field
                     class="purple-input"
                     label="Build Tool"
+                    v-model="buildTool"
                   />
                 </v-col>
 
@@ -53,6 +56,7 @@
                   <v-text-field
                     class="purple-input"
                     label="Git Address"
+                    v-model="gitAddress"
                   />
                 </v-col>
 
@@ -63,6 +67,7 @@
                   <v-text-field
                     class="purple-input"
                     label="Target Server"
+                    v-model="targetServer"
                   />
                 </v-col>
                 <v-col
@@ -83,9 +88,21 @@
 </template>
 <script>
 export default {
-    props: ['saveType'],
+    props: [
+      'saveType',
+      'appName',
+      'description',
+      'buildTool',
+      'gitAddress',
+      'targetServer'
+    ],
     data: {
         saveType: '',
+        appName: '',
+        description : '',
+        buildTool : '',
+        gitAddress : '',
+        targetServer : ''
     },
     computed: {
         title() {

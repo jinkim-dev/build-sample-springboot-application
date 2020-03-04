@@ -28,10 +28,14 @@ import App from './App'
 import router from '@/router'
 import store from '@/store'
 
+import VeeValidate, { Validator } from 'vee-validate';
+
 // Sync store with router
 sync(store, router)
 
 Vue.config.productionTip = false
+
+// Vue.use(VeeValidate, {});
 
 /* eslint-disable no-new */
 new Vue({

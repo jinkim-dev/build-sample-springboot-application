@@ -47,6 +47,11 @@ public class BuildServiceImpl implements BuildService {
   }
 
   @Override
+  public Build modify(Build build) {
+    return buildDao.save(build);
+  }
+
+  @Override
   public void createJob(String jobName) {
     ClassPathResource configResource = new ClassPathResource("/templates/jenkins/config.xml");
     ClassPathResource pipelineResource = new ClassPathResource("/templates/jenkins/jenkinsfile");
