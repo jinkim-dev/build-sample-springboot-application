@@ -17,8 +17,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
 @Validated
+@Slf4j
 public class BuildServiceImpl implements BuildService {
 
   private JenkinsAPi jenkinsAPi;
@@ -52,22 +55,34 @@ public class BuildServiceImpl implements BuildService {
   }
 
   @Override
-  public void createJob(String jobName) {
-    ClassPathResource configResource = new ClassPathResource("/templates/jenkins/config.xml");
-    ClassPathResource pipelineResource = new ClassPathResource("/templates/jenkins/jenkinsfile");
+  public void createJob(Build build) {
     try {
-      Path pipelinePath = Paths.get(pipelineResource.getURI());
-      String pipeline = new String(Files.readAllBytes(pipelinePath));
-      // TODO: Render pipeline
-      Path configPath = Paths.get(configResource.getURI());
-      String jobTemplateXml = new String(Files.readAllBytes(configPath));
-      Map<String, Object> context = Maps.newHashMap();
-      context.put("script", pipeline);
-      String jobXml = jinjava.render(jobTemplateXml, context);
-      jenkinsAPi.createJob(jobName, jobXml);
+      String pipeline = renderPipeline(build);
+      String jobXml = renderJobXml(pipeline);
+      jenkinsAPi.createJob(build.getAppName(), jobXml);
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error(e.getMessage());
     }
+  }
+
+  private String renderJobXml(String script) throws IOException {
+    Map<String, Object> context = Maps.newHashMap();
+    context.put("script", script);
+    return render("/templates/jenkins/config.xml", context);
+  }
+
+  private String renderPipeline(Build build) throws IOException {
+    Map<String, Object> context = Maps.newHashMap();
+    context.put("gitAddress", build.getGitAddress());
+    return render("/templates/jenkins/jenkinsfile", context);
+  }
+
+  private String render(String templatePath, Map<String, Object> context) throws IOException {
+    ClassPathResource resource = new ClassPathResource(templatePath);
+    Path path = Paths.get(resource.getURI());
+    String template = new String(Files.readAllBytes(path));
+
+    return jinjava.render(template, context);
   }
 
   @Override

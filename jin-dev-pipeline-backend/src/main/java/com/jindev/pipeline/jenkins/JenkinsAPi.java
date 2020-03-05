@@ -31,7 +31,7 @@ public class JenkinsAPi {
   }
 
   public QueueReference build(Job job) {
-    return executeWithResult(() -> job.build());
+    return executeWithResult(job::build);
   }
 
   private void execute(Executor executor) {
@@ -39,7 +39,8 @@ public class JenkinsAPi {
   }
 
   private <R> R executeWithResult(ExecutorWithResult executor) {
-    return (R) executor.exec();
+    R exec = (R) executor.exec();
+    return exec;
   }
 
   @FunctionalInterface

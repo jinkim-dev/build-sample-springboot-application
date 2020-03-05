@@ -56,9 +56,8 @@ public class BuildController {
 
   @PostMapping
   public ResponseEntity save(@RequestBody Build build) {
-    Map<String, Object> map = new HashMap<>();
-    map.put("build", buildService.save(build));
-    buildService.createJob(build.getAppName());
+    build = buildService.save(build);
+    buildService.createJob(build);
     return ResponseEntity.created(URI.create("/jindev/builds/" + build.getAppName())).build();
   }
 

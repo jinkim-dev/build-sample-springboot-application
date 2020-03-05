@@ -11,7 +11,7 @@ public interface BuildService {
     Build save(Build build);
     Build modify(Build build);
     void deleteById(long id);
-    void createJob(String jobName);
+    void createJob(Build build);
     JobWithDetails getJob(String jobName);
     QueueReference build(String jobName);
 }
