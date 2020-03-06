@@ -8,16 +8,21 @@
   export default {
     components: {Build},
     data: () => ({
-      saveType : 'add'
+      saveType: 'add',
+      appName: '',
+      description: '',
+      buildTool: '',
+      gitAddress: '',
+      targetServer: ''
     }),
     methods: {
-      save() {
+      save(build) {
         axios.post('http://localhost:8080/jindev/builds', {
-          appName : this.appName,
-          description : this.description,
-          buildTool : this.buildTool,
-          gitAddress : this.gitAddress,
-          targetServer : this.targetServer
+          appName : this.build.appName,
+          description : this.build.description,
+          buildTool : this.build.buildTool,
+          gitAddress : this.build.gitAddress,
+          targetServer : this.build.targetServer
         })
         .then(response => {
           window.location.href = '/';

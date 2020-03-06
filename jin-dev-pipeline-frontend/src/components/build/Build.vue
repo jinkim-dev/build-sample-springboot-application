@@ -23,7 +23,7 @@
                   <v-text-field
                     class="purple-input"
                     label="App Name"
-                    v-model="appName"
+                    v-model="build.appName"
                   />
                 </v-col>
 
@@ -34,7 +34,7 @@
                   <v-text-field
                     class="purple-input"
                     label="Description"
-                    v-model="description"
+                    v-model="build.description"
                   />
                 </v-col>
 
@@ -45,7 +45,7 @@
                   <v-text-field
                     class="purple-input"
                     label="Build Tool"
-                    v-model="buildTool"
+                    v-model="build.buildTool"
                   />
                 </v-col>
 
@@ -56,7 +56,7 @@
                   <v-text-field
                     class="purple-input"
                     label="Git Address"
-                    v-model="gitAddress"
+                    v-model="build.gitAddress"
                   />
                 </v-col>
 
@@ -67,7 +67,7 @@
                   <v-text-field
                     class="purple-input"
                     label="Target Server"
-                    v-model="targetServer"
+                    v-model="build.targetServer"
                   />
                 </v-col>
                 <v-col
@@ -88,6 +88,7 @@
 </template>
 <script>
 export default {
+  // 부모에게 받은 값을 바로 가공하면 에러발생. 가공 필요
     props: [
       'saveType',
       'appName',
@@ -98,11 +99,16 @@ export default {
     ],
     data: {
         saveType: '',
-        appName: '',
-        description : '',
-        buildTool : '',
-        gitAddress : '',
-        targetServer : ''
+        build: {}
+    },
+    // 부모 컴포넌트에서 props로 받은 값을 자식컴포넌트로 바꾼 뒤 사용하면 에러가 발생하지 않는다.
+    // 위 data()안에 있는 build에 담기
+    created() {
+      this.build.appName = this.appName;
+      this.build.description = this.description;
+      this.build.buildTool = this.buildTool;
+      this.build.gitAddress = this.gitAddress;
+      this.build.targetServer = this.targetServer;
     },
     computed: {
         title() {
@@ -111,7 +117,8 @@ export default {
     },
     methods: {
         submit() {
-            this.$emit('submit');
+            // $emit() : 자식 컴포넌트에서 부모 컴포넌트로 보냄
+            this.$emit('submit', this.build);
         }
     }
 }
