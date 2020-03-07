@@ -1,5 +1,6 @@
 <template>
-  <build :saveType="saveType" @submit="save"></build>
+  <build :saveType="saveType" :appName="appName" :description="description"
+   :buildTool="buildTool" :gitAddress="gitAddress" :targetServer="targetServer" @submit="save"></build>
 </template>
 
 <script>
@@ -18,11 +19,11 @@
     methods: {
       save(build) {
         axios.post('http://localhost:8080/jindev/builds', {
-          appName : this.build.appName,
-          description : this.build.description,
-          buildTool : this.build.buildTool,
-          gitAddress : this.build.gitAddress,
-          targetServer : this.build.targetServer
+          appName : build.appName,
+          description : build.description,
+          buildTool : build.buildTool,
+          gitAddress : build.gitAddress,
+          targetServer : build.targetServer
         })
         .then(response => {
           window.location.href = '/';

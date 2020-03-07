@@ -15,19 +15,26 @@
     components: {Build},
     data: () => ({
       saveType : 'edit',
-      appName: ''
+      appName: '',
+      description: '',
+      buildTool: '',
+      gitAddress: '',
+      targetServer: ''
     }),
     mounted() {
         var name = this.$route.query.name;
+        // this.appName = 'jpetstore';
+        let that = this;
         axios.get(`http://localhost:8080/jindev/builds/${name}`)
-            .then(response => {
-                var build = response.data.build;
-                this.appName = build.appName;
-                this.description = build.description;
-                this.buildTool = build.buildTool;
-                this.gitAddress = build.gitAddress;
-                this.targetServer = build.targetServer;
-                this.items = build.builds;
+            .then(result => {
+              debugger
+                var build = result.data.build;
+                that.appName = build.appName;
+                // this.description = build.description;
+                // this.buildTool = build.buildTool;
+                // this.gitAddress = build.gitAddress;
+                // this.targetServer = build.targetServer;
+                // this.items = build.builds;
             })
             .catch(function(error) {
                 console.log(error);
