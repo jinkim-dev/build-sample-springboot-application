@@ -6,7 +6,7 @@
     <v-row justify="center">
       <v-col
         cols="12"
-        md="12"
+        md="4"
       >
         <material-card
           color="green"
@@ -97,19 +97,16 @@ export default {
       'gitAddress',
       'targetServer'
     ],
-    data: () => ({
-        saveType: '',
-        build: {}
-    }),
-    // 부모 컴포넌트에서 props로 받은 값을 자식컴포넌트로 바꾼 뒤 사용하면 에러가 발생하지 않는다.
-    // 위 data()안에 있는 build에 담기
-    mounted() {
-      this.build.appName = this.appName;
-      debugger;
-      this.build.description = this.description;
-      this.build.buildTool = this.buildTool;
-      this.build.gitAddress = this.gitAddress;
-      this.build.targetServer = this.targetServer;
+    data() {
+      return {
+        build: {
+          appName: this.appName,
+          description: this.description,
+          buildTool: this.buildTool,
+          gitAddress: this.gitAddress,
+          targetServer: this.targetServer
+        }
+      }
     },
     computed: {
         title() {

@@ -21,20 +21,18 @@
       gitAddress: '',
       targetServer: ''
     }),
-    mounted() {
+    created() {
         var name = this.$route.query.name;
-        // this.appName = 'jpetstore';
-        let that = this;
+        console.log(`name : ${name}`);
         axios.get(`http://localhost:8080/jindev/builds/${name}`)
             .then(result => {
-              debugger
                 var build = result.data.build;
-                that.appName = build.appName;
-                // this.description = build.description;
-                // this.buildTool = build.buildTool;
-                // this.gitAddress = build.gitAddress;
-                // this.targetServer = build.targetServer;
-                // this.items = build.builds;
+                this.appName = build.appName;
+                this.description = build.description;
+                this.buildTool = build.buildTool;
+                this.gitAddress = build.gitAddress;
+                this.targetServer = build.targetServer;
+                this.items = build.builds;
             })
             .catch(function(error) {
                 console.log(error);
@@ -42,7 +40,7 @@
     },
     methods: {
       save() {
-        axios.put(`'http://localhost:8080/jindev/builds/${appName}`, {
+        axios.put(`'http://localhost:8080/jindev/builds/${name}`, {
           appName : this.appName,
           description : this.description,
           buildTool : this.buildTool,
