@@ -85,7 +85,7 @@ public class BuildController {
 
   private BuildDto convertToDto(Build build, JobWithDetails details) {
     BuildDto buildDto = modelMapper.map(build, BuildDto.class);
-    if (details.getLastBuild().getNumber() > -1) {
+    if (details.getLastBuild() != null && details.getLastBuild().getNumber() > -1) {
       buildDto.setLatestBuildNumber(details.getLastBuild().getNumber());
       // TODO: exception handler
       try {
@@ -94,6 +94,7 @@ public class BuildController {
       } catch (IOException e) {
         log.error(e.getMessage());
       }
+
       List<BuildWithDetailsDto> detailsDtos =
           details.getBuilds().stream()
               .map(

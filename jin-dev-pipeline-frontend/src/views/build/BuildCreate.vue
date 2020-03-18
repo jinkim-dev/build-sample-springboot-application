@@ -6,8 +6,11 @@
 <script>
   import Build from "../../components/build/Build";
   import axios from "axios";
+  
   export default {
-    components: {Build},
+    components: {
+      Build
+    },
     data: () => ({
       saveType: 'add',
       appName: '',
@@ -18,6 +21,7 @@
     }),
     methods: {
       save(build) {
+        debugger
         axios.post('http://localhost:8080/jindev/builds', {
           appName : build.appName,
           description : build.description,

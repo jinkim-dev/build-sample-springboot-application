@@ -26,7 +26,8 @@
         console.log(`name : ${name}`);
         axios.get(`http://localhost:8080/jindev/builds/${name}`)
             .then(result => {
-                var build = result.data.build;
+                console.info(this);
+                const build = result.data.build;
                 this.appName = build.appName;
                 this.description = build.description;
                 this.buildTool = build.buildTool;
