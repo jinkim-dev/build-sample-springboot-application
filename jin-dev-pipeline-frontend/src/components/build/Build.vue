@@ -23,7 +23,7 @@
                   <v-text-field
                     class="purple-input"
                     label="App Name"
-                    v-model="build.appName"
+                    v-model="appName"
                   />
                 </v-col>
 
@@ -34,7 +34,7 @@
                   <v-text-field
                     class="purple-input"
                     label="Description"
-                    v-model="build.description"
+                    v-model="description"
                   />
                 </v-col>
 
@@ -45,7 +45,7 @@
                   <v-text-field
                     class="purple-input"
                     label="Build Tool"
-                    v-model="build.buildTool"
+                    v-model="buildTool"
                   />
                 </v-col>
 
@@ -56,7 +56,7 @@
                   <v-text-field
                     class="purple-input"
                     label="Git Address"
-                    v-model="build.gitAddress"
+                    v-model="gitAddress"
                   />
                 </v-col>
 
@@ -67,7 +67,7 @@
                   <v-text-field
                     class="purple-input"
                     label="Target Server"
-                    v-model="build.targetServer"
+                    v-model="targetServer"
                   />
                 </v-col>
                 <v-col
@@ -89,24 +89,13 @@
 <script>
 export default {
   // 부모에게 받은 값을 바로 가공하면 에러발생. 가공 필요
-    props: [
-      'saveType',
-      'appName',
-      'description',
-      'buildTool',
-      'gitAddress',
-      'targetServer'
-    ],
-    data() {
-      return {
-        build: {
-          appName: this.appName,
-          description: this.description,
-          buildTool: this.buildTool,
-          gitAddress: this.gitAddress,
-          targetServer: this.targetServer
-        }
-      }
+    props: {
+      saveType: String,
+      appName: String,
+      description: String,
+      buildTool: String,
+      gitAddress: String,
+      targetServer: String
     },
     computed: {
         title() {
@@ -116,7 +105,13 @@ export default {
     methods: {
         submit() {
             // $emit() : 자식 컴포넌트에서 부모 컴포넌트로 보냄
-            this.$emit('submit', this.build);
+            this.$emit('submit', {
+              appName : this.appName,
+              description : this.description,
+              buildTool : this.buildTool,
+              gitAddress : this.gitAddress,
+              targetServer : this.targetServer
+          });
         }
     }
 }

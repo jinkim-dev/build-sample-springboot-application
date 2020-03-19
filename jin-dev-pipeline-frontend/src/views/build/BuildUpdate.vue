@@ -22,6 +22,10 @@
       targetServer: ''
     }),
     created() {
+        this.fetch();
+    },
+    methods: {
+      fetch() {
         var name = this.$route.query.name;
         console.log(`name : ${name}`);
         axios.get(`http://localhost:8080/jindev/builds/${name}`)
@@ -38,16 +42,9 @@
             .catch(function(error) {
                 console.log(error);
             })
-    },
-    methods: {
-      save() {
-        axios.put(`'http://localhost:8080/jindev/builds/${name}`, {
-          appName : this.appName,
-          description : this.description,
-          buildTool : this.buildTool,
-          gitAddress : this.gitAddress,
-          targetServer : this.targetServer
-        })
+      },
+      save(build) {
+        axios.put(`http://localhost:8080/jindev/builds/${build.appName}`, build)
         .then(response => {
           window.location.href = '/';
         }).catch(function(error) {

@@ -21,14 +21,7 @@
     }),
     methods: {
       save(build) {
-        debugger
-        axios.post('http://localhost:8080/jindev/builds', {
-          appName : build.appName,
-          description : build.description,
-          buildTool : build.buildTool,
-          gitAddress : build.gitAddress,
-          targetServer : build.targetServer
-        })
+        axios.post('http://localhost:8080/jindev/builds', build)
         .then(response => {
           window.location.href = '/';
         }).catch(function(error) {
