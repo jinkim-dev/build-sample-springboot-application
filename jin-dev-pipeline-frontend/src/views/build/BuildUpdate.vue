@@ -15,6 +15,7 @@
     components: {Build},
     data: () => ({
       saveType : 'edit',
+      id: 0,
       appName: '',
       description: '',
       buildTool: '',
@@ -26,9 +27,9 @@
     },
     methods: {
       fetch() {
-        var name = this.$route.query.name;
-        console.log(`name : ${name}`);
-        axios.get(`http://localhost:8080/jindev/builds/${name}`)
+        this.id = this.$route.query.id;
+        console.log(`id : ${this.id}`);
+        axios.get(`http://localhost:8080/jindev/builds/${this.id}`)
             .then(result => {
                 console.info(this);
                 const build = result.data.build;
@@ -44,7 +45,7 @@
             })
       },
       save(build) {
-        axios.put(`http://localhost:8080/jindev/builds/${build.appName}`, build)
+        axios.put(`http://localhost:8080/jindev/builds/${this.id}`, build)
         .then(response => {
           window.location.href = '/';
         }).catch(function(error) {

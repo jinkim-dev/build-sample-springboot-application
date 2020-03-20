@@ -19,11 +19,12 @@
                   cols="12"
                   md="4"
                 >
-                  <v-text-field
+                  <v-select
+                    :items="buildToolItems"
                     label="Build Tool"
                     v-model="buildTool"
                     disabled
-                  ></v-text-field>
+                  ></v-select>
                 </v-col>
 
                 <v-col
@@ -99,13 +100,7 @@
             >
           </v-avatar>
 
-          
           <v-card-text class="text-center">
-
-            <h4 class="font-weight-light">
-              Build History
-            </h4>
-
             <v-data-table
               :headers="headers"
               :items="items"
@@ -165,16 +160,18 @@
       }
     ],
     items: [],
+    id: 0,
     appName: '',
-    description : '',
-    buildTool : '',
-    gitAddress : '',
-    targetServer : '',
-    snackbar : false,
+    description: '',
+    buildTool: '',
+    gitAddress: '',
+    targetServer: '',
+    snackbar: false,
+    buildToolItems: ['maven', 'gradle']
     }),
     mounted() {
-      var name = this.$route.query.name;
-      axios.get(`http://localhost:8080/jindev/builds/${name}`)
+      this.id = this.$route.query.id;
+      axios.get(`http://localhost:8080/jindev/builds/${this.id}`)
         .then(response => {
           console.info(response);
           var build = response.data.build;

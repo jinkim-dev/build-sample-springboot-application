@@ -4,10 +4,11 @@ import com.offbytwo.jenkins.model.JobWithDetails;
 import com.offbytwo.jenkins.model.QueueReference;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BuildService {
     List<Build> getList();
-    Build get(String buildName);
+    Optional<Build> get(long id);
     Build save(Build build);
     Build modify(Build build);
     void deleteById(long id);

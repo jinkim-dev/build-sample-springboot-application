@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(BuildController.class)
@@ -59,7 +60,7 @@ public class BuildControllerTest {
 
   @Test
   public void buildShouldReturnMessageFromService() throws Exception {
-    Mockito.when(buildService.get("jpetstore")).thenReturn(build);
+    Mockito.when(buildService.get(1)).thenReturn(Optional.ofNullable(build));
     Mockito.when(buildService.getJob(build.getAppName())).thenReturn(details);
     mockMvc
         .perform(MockMvcRequestBuilders.get("/builds/1"))

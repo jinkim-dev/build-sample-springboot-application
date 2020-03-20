@@ -44,13 +44,18 @@ public class BuildController {
     return map;
   }
 
-  @GetMapping("/{buildName}")
-  public ResponseEntity<Map<String, Object>> get(@PathVariable String buildName) {
+  @GetMapping("/{buildId}")
+  public ResponseEntity<Map<String, Object>> get(@PathVariable long buildId) {
     Map<String, Object> map = new HashMap<>();
-    Build build = buildService.get(buildName);
-    JobWithDetails details = buildService.getJob(buildName);
-    BuildDto buildDto = Optional.ofNullable(build).map(b -> convertToDto(b, details)).orElse(null);
-    map.put("build", buildDto);
+    Optional<Build> build = buildService.get(buildId);
+    build
+        .map(Build::getAppName)
+        .ifPresent(
+            appName -> {
+              JobWithDetails details = buildService.getJob(appName);
+              BuildDto buildDto = build.map(b -> convertToDto(b, details)).orElse(null);
+              map.put("build", buildDto);
+            });
     return ResponseEntity.ok(map);
   }
 
@@ -58,15 +63,18 @@ public class BuildController {
   public ResponseEntity save(@RequestBody Build build) {
     build = buildService.save(build);
     buildService.createJob(build);
-    return ResponseEntity.created(URI.create("/jindev/builds/" + build.getAppName())).build();
+    return ResponseEntity.created(
+            URI.create(System.getenv("server.servlet.context-path") + build.getAppName()))
+        .build();
   }
 
-  @PutMapping("/{buildName}")
-  public ResponseEntity update(@PathVariable String buildName, @RequestBody Build build) {
+  @PutMapping("/{buildId}")
+  public ResponseEntity update(@PathVariable long buildId, @RequestBody Build build) {
     Map<String, Object> map = new HashMap<>();
-    build.setAppName(buildName);
-    buildService.modify(build);
-    return ResponseEntity.ok().build();
+    build.setId(buildId);
+    build = buildService.modify(build);
+    map.put("build", build);
+    return ResponseEntity.ok(map);
   }
 
   @DeleteMapping("/{buildId}")

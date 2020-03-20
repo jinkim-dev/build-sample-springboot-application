@@ -38,7 +38,7 @@
               slot="items"
               slot-scope="{ item }"
             >
-              <td><router-link :to="{ path: 'build/buildView', query: { name: item.appName }}">{{ item.appName }}</router-link></td>
+              <td><router-link :to="{ path: 'build/buildView', query: { id: item.id }}">{{ item.appName }}</router-link></td>
               <td>{{ item.buildTool }}</td>
               <td>{{ item.gitAddress }}</td>
               <td>{{ item.targetServer }}</td>
@@ -53,7 +53,7 @@
                   </v-icon>
                   <v-icon
                     small
-                    @click="$router.push({name: 'BuildUpdate', query: { name: item.appName }})"
+                    @click="$router.push({name: 'BuildUpdate', query: { id: item.id }})"
                   >mdi-pencil
                   </v-icon> 
                   <v-icon

@@ -24,6 +24,7 @@
                     class="purple-input"
                     label="App Name"
                     v-model="appName"
+                    :disabled="this.saveType === 'edit'"
                   />
                 </v-col>
 
@@ -42,10 +43,11 @@
                   cols="12"
                   md="4"
                 >
-                  <v-text-field
+                  <v-select
                     class="purple-input"
                     label="Build Tool"
                     v-model="buildTool"
+                    :items="buildToolItems"
                   />
                 </v-col>
 
@@ -96,6 +98,11 @@ export default {
       buildTool: String,
       gitAddress: String,
       targetServer: String
+    },
+    data() {
+      return {
+        buildToolItems: ['maven', 'gradle']
+      }
     },
     computed: {
         title() {

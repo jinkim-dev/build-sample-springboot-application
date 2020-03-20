@@ -40,8 +40,8 @@ public class BuildServiceImpl implements BuildService {
   }
 
   @Override
-  public Build get(String buildName) {
-    return buildDao.findByAppName(buildName).orElse(null);
+  public Optional<Build> get(long id) {
+    return buildDao.findById(id);
   }
 
   @Override
