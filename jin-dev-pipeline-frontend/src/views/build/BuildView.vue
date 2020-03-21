@@ -99,32 +99,8 @@
               src="../../../public/history.png"
             >
           </v-avatar>
-
           <v-card-text class="text-center">
-            <v-data-table
-              :headers="headers"
-              :items="items"
-              hide-actions
-            >
-              <template
-                slot="headerCell"
-                slot-scope="{ header }"
-              >
-                <span
-                  class="subheading font-weight-light text-success text--darken-3"
-                  v-text="header.text"
-                />
-              </template>
-              <template
-                slot="items"
-                slot-scope="{ item }"
-              >
-                <td>{{ item.displayName }}</td>
-                <td>{{ item.building? 'Building' : 'Finished' }}</td>
-                <td>{{ item.duration / 1000 + ' sec' }}</td>
-                <td>{{ item.result }}</td>                
-              </template>
-            </v-data-table>
+            <BuildHistory :items="items"/>
           </v-card-text>
         </material-card>
       </v-col>
@@ -133,9 +109,13 @@
 </template>
 
 <script>
+  import BuildHistory from '../../components/build/BuildHistory'
   import axios from "axios";
 
   export default {
+    components: {
+      BuildHistory
+    },
     data: () => ({
       headers: [
       {
@@ -169,7 +149,7 @@
     snackbar: false,
     buildToolItems: ['maven', 'gradle']
     }),
-    mounted() {
+    created() {
       this.id = this.$route.query.id;
       axios.get(`http://localhost:8080/jindev/builds/${this.id}`)
         .then(response => {
