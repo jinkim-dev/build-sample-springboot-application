@@ -2,15 +2,16 @@ package com.jindev.pipeline.handler;
 
 import org.springframework.validation.BindingResult;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor(staticName = "of")
 @AllArgsConstructor(staticName = "of")
 public class ErrorResponse {
-    ErrorCode errorCode;
-    BindingResult bindingResult;
+    @NonNull
+    private ErrorCode errorCode;
+    private BindingResult bindingResult;
 }
