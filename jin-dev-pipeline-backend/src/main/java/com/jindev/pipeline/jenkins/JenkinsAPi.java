@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * @see <a href="https://wiki.jenkins.io/display/JENKINS/Remote+access+API>jenkins wiki</a>
+ */
 @Component
 public class JenkinsAPi {
 

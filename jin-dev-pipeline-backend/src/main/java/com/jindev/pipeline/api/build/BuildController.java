@@ -6,6 +6,7 @@ import com.offbytwo.jenkins.model.QueueReference;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -95,14 +96,6 @@ public class BuildController {
     BuildDto buildDto = modelMapper.map(build, BuildDto.class);
     if (details.getLastBuild() != null && details.getLastBuild().getNumber() > -1) {
       buildDto.setLatestBuildNumber(details.getLastBuild().getNumber());
-      // TODO: exception handler
-      try {
-        log.info("details : " + details.getLastBuild().details().toString());
-        buildDto.setLatestBuildResult(details.getLastBuild().details().getResult().name());
-      } catch (IOException e) {
-        log.error(e.getMessage());
-      }
-
       List<BuildWithDetailsDto> detailsDtos =
           details.getBuilds().stream()
               .map(
@@ -117,6 +110,14 @@ public class BuildController {
               .filter(Objects::nonNull)
               .map(this::convertToDetailDto)
               .collect(Collectors.toList());
+
+      Optional.of(detailsDtos)
+          .filter(dtos -> !ObjectUtils.isEmpty(dtos))
+          .ifPresent(
+              dtos -> {
+                buildDto.setLatestBuildResult(dtos.get(dtos.size() - 1).getResult().name());
+              });
+
       buildDto.setBuilds(detailsDtos);
     }
     return buildDto;
