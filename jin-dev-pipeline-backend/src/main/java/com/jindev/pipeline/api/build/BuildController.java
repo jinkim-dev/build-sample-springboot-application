@@ -65,7 +65,7 @@ public class BuildController {
     build = buildService.save(build);
     buildService.createJob(build);
     return ResponseEntity.created(
-            URI.create(System.getenv("server.servlet.context-path") + build.getAppName()))
+            URI.create("/builds" + build.getAppName()))
         .build();
   }
 

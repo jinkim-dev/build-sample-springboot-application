@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 @lombok.Getter
 @lombok.Setter
 @lombok.Builder
+@lombok.EqualsAndHashCode
 @Entity
 public class Build {
 
