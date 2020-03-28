@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +26,7 @@ import com.offbytwo.jenkins.model.JobWithDetails;
 
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(BuildController.class)
@@ -73,7 +72,7 @@ public class BuildControllerTest {
   }
 
   @Test
-  public void testSave() throws Exception {
+  public void shouldSaveBuild() throws Exception {
     Build saveBuild =
         Build.builder()
             .id(1L)
@@ -89,5 +88,33 @@ public class BuildControllerTest {
                 .content(objectMapper.writeValueAsString(build)))
         .andExpect(status().isCreated())
         .andDo(MockMvcResultHandlers.print());
+  }
+
+  @Test
+  public void shouldSaveBuildWithoutNotNullParameter() throws Exception {
+    Build build =
+        Build.builder()
+            .buildTool("maven")
+            .gitAddress("https://github.com/mybatis/jpetstore-6.git")
+            .build();
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.post("/builds")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(build)))
+        .andExpect(status().isBadRequest())
+        .andDo(MockMvcResultHandlers.print());
+  }
+
+  @Test
+  public void testUpdate() throws Exception {
+    Build modifyBuild =
+        Build.builder()
+            .id(1L)
+            .appName("jpetstore")
+            .buildTool("maven")
+            .gitAddress("https://github.com/mybatis/jpetstore-6.git")
+            .build();
+    when(buildService.modify(eq(build))).thenReturn(modifyBuild);
   }
 }

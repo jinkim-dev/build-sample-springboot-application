@@ -14,6 +14,7 @@ import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
 import javax.xml.ws.Response;
 
 @Slf4j
@@ -61,7 +62,7 @@ public class BuildController {
   }
 
   @PostMapping
-  public ResponseEntity save(@RequestBody Build build) {
+  public ResponseEntity save(@RequestBody @Valid Build build) {
     build = buildService.save(build);
     buildService.createJob(build);
     return ResponseEntity.created(
@@ -70,7 +71,7 @@ public class BuildController {
   }
 
   @PutMapping("/{buildId}")
-  public ResponseEntity update(@PathVariable long buildId, @RequestBody Build build) {
+  public ResponseEntity update(@PathVariable long buildId, @RequestBody @Valid Build build) {
     Map<String, Object> map = new HashMap<>();
     build.setId(buildId);
     build = buildService.modify(build);
