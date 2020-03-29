@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @ControllerAdvice
 @Slf4j
-public class GlobalExceptionHandler  {
+public class GlobalExceptionHandler {
 
     /**
      * javax.validation.Valid or @Validated으로  binding error 발생 시 발생한다.
@@ -20,9 +20,9 @@ public class GlobalExceptionHandler  {
      * 주로 @RequestBody, @RequestBody 어노테이션에서 발생
      */
      @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-         log.error("handleMethodArgumentNotValidException", e);
-         final ErrorResponse response = ErrorResponse.of(CommonErrorCode.INVALID_INPUT_VALUE, e.getBindingResult());
+    protected ResponseEntity<ApiError> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+         log.error("handleMethodArgumentNotValidException : {}, {}", e.getMessage(), e.getBindingResult());
+         final ApiError response = ApiError.of(CommonErrorCode.INVALID_INPUT_VALUE, e.getBindingResult());
          return ResponseEntity.badRequest().body(response);
      }
 
@@ -31,25 +31,25 @@ public class GlobalExceptionHandler  {
      * @return
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, final
+    protected ResponseEntity<ApiError> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, final
         WebRequest request) {
         log.error("handleHttpRequestMethodNotSupportedException", e);
-        final ErrorResponse response = ErrorResponse.of(CommonErrorCode.METHOD_NOT_ALLOWED);
+        final ApiError response = ApiError.of(CommonErrorCode.METHOD_NOT_ALLOWED);
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(response);
     }
 
     @ExceptionHandler(BusinessException.class)
-    protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException e) {
+    protected ResponseEntity<ApiError> handleBusinessException(final BusinessException e) {
         log.error("handleBusinessException", e);
         final ErrorCode errorCode = e.getErrorCode();
-        final ErrorResponse response = ErrorResponse.of(errorCode);
+        final ApiError response = ApiError.of(errorCode);
         return ResponseEntity.status(errorCode.getStatus()).body(response);
     }
 
     @ExceptionHandler(Exception.class)
-    protected  ResponseEntity<ErrorResponse> handleException(Exception e) {
+    protected  ResponseEntity<ApiError> handleException(Exception e) {
         log.error("handleEntityNotFoundException", e);
-        final ErrorResponse response = ErrorResponse.of(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        final ApiError response = ApiError.of(CommonErrorCode.INTERNAL_SERVER_ERROR);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 }
