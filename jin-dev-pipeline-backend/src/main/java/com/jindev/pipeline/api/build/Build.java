@@ -26,12 +26,15 @@ public class Build {
   @Column(name = "DESCRIPTION", length = 500)
   private String description;
 
+  @NotNull
   @Column(name = "BUILD_TOOL")
   private String buildTool;
 
+  @NotNull
   @Column(name = "GIT_ADDRESS")
   private String gitAddress;
 
+  @NotNull
   @Column(name = "TARGET_SERVER")
   private String targetServer;
 }

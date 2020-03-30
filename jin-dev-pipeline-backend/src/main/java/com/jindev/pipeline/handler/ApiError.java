@@ -1,6 +1,7 @@
 package com.jindev.pipeline.handler;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.validation.BindingResult;
 
@@ -22,6 +23,9 @@ public class ApiError implements Serializable {
     @JsonProperty("error_code")
     private ErrorCode errorCode;
 
-    @JsonProperty("binding_result")
-    private BindingResult bindingResult;
+    @NonNull
+    private String message;
+
+    @JsonProperty("field_error")
+    private List<FieldErrorDto> fieldErrorDtos;
 }
