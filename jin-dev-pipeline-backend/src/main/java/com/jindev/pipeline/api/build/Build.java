@@ -3,6 +3,7 @@ package com.jindev.pipeline.api.build;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
@@ -17,7 +18,9 @@ import lombok.AccessLevel;
 @Entity
 public class Build {
 
-  @Id @GeneratedValue private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
   @NotNull
   @Column(name = "APP_NAME", length = 100, nullable = false)
