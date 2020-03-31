@@ -1,17 +1,15 @@
 package com.jindev.pipeline.jenkins;
 
+import com.jindev.pipeline.handler.JenkinsErrorHandler;
 import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.model.Job;
 import com.offbytwo.jenkins.model.JobWithDetails;
 import com.offbytwo.jenkins.model.QueueReference;
-import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 import java.util.Map;
+import org.springframework.stereotype.Component;
 
-/**
- * @see <a href="https://wiki.jenkins.io/display/JENKINS/Remote+access+API>jenkins wiki</a>
- */
+/** @see <a href="https://wiki.jenkins.io/display/JENKINS/Remote+access+API>jenkins wiki</a> */
 @Component
 public class JenkinsAPi {
 
@@ -41,32 +39,33 @@ public class JenkinsAPi {
     executor.exec();
   }
 
-  private <R> R executeWithResult(ExecutorWithResult executor) {
-    R exec = (R) executor.exec();
-    return exec;
+  private <T> T executeWithResult(ExecutorWithResult executor) {
+    return (T) executor.exec();
   }
 
   @FunctionalInterface
   private interface Executor<E extends IOException> {
-    default void exec() throws RuntimeException {
+    default void exec() {
       try {
         run();
-      } catch (Exception ex) {
-        throw new RuntimeException(ex);
+      } catch (Exception e) {
+        throw JenkinsErrorHandler.handle(e);
       }
     }
+
     void run() throws E;
   }
 
   @FunctionalInterface
   public interface ExecutorWithResult<T, E extends IOException> {
-    default T exec() throws RuntimeException {
+    default T exec() {
       try {
-        return (T) run();
-      } catch (Exception ex) {
-        throw new RuntimeException(ex);
+        return run();
+      } catch (Exception e) {
+        throw JenkinsErrorHandler.handle(e);
       }
     }
+
     T run() throws E;
   }
 }
