@@ -8,7 +8,7 @@ public class BusinessException extends RuntimeException {
     private Throwable cause;
 
     public BusinessException(ErrorCode errorCode) {
-        this.errorCode = errorCode;
+        this(errorCode, null);
     }
 
     public BusinessException(ErrorCode errorCode, Throwable cause) {
