@@ -7,9 +7,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum JenkinsError implements ErrorCode {
-  CONNECTION_FAIL(500, "J001", "Jenkins Server Connection Fail"),
-  UNKNOWN(500, "J002", "Jenkins Server Unknown Error");
+  CONNECTION_FAIL(500, "J001"),
+  UNKNOWN(500, "J002");
   private final int status;
   private final String code;
-  private final String message;
 }
