@@ -9,6 +9,9 @@ jenkins:
   url: http://localhost:8090/
   id: admin
   password: 111f408e7a67229deb70e1485d13c21f15
+message:
+  locale: KR
+  encoding: UTF-8
 server:
   servlet:
     context-path: /jindev

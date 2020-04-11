@@ -79,8 +79,7 @@ public class GlobalExceptionHandler {
     Locale locale = LocaleContextHolder.getLocale();
     String errorKind = be.getErrorCode().getClass().getSimpleName().replace("Error", "");
     String key = String.format("%s.%s", errorKind, be.getErrorCode().toString()).toLowerCase();
-    String message = messageSource
-      .getMessage(key, null, locale);
-    return message;
+    return messageSource
+      .getMessage(key, null, Locale.KOREA);
   }
 }
