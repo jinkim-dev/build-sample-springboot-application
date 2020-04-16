@@ -54,4 +54,5 @@ public class MessageConfiguration implements WebMvcConfigurer {
     messageSource.setFallbackToSystemLocale(false);
     return messageSource;
   }
+
 }

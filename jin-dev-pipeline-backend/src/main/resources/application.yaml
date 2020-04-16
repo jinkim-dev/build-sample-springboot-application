@@ -15,3 +15,6 @@ message:
 server:
   servlet:
     context-path: /jindev
+  error:
+    whitelabel:
+      enabled: false
