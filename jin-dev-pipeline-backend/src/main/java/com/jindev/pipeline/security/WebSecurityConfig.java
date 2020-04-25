@@ -17,9 +17,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       .authorizeRequests()
       .antMatchers("/swagger-ui.html")
       .permitAll()
-    ;
-//        .authorizeRequests()
-//        .antMatchers("/jindev/builds/{build}/**")
-//        .access("@pathVariableValidator.accessTest(authentication, #build)");
+      .antMatchers("/jindev/builds/{build}/**")
+      .access("@pathVariableValidator.accessTest(authentication, #build)");
   }
 }

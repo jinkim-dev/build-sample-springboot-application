@@ -12,9 +12,3 @@ jenkins:
 message:
   locale: KR
   encoding: UTF-8
-server:
-  servlet:
-    context-path: /jindev
-  error:
-    whitelabel:
-      enabled: false
