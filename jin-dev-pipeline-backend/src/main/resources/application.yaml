@@ -1,4 +1,10 @@
+server:
+  servlet:
+    context-path: /jindev
 spring:
+  data:
+    rest:
+      defaultPageSize: 10
   h2:
     console:
       enabled: true
