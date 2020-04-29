@@ -69,10 +69,20 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   protected ResponseEntity<ApiError> handleException(Exception e) {
-    log.error("handleEntityNotFoundException", e);
-    final ErrorCode errorCode = CommonErrorCode.INTERNAL_SERVER_ERROR;
-    final ApiError response = ApiError.of(errorCode, e.getMessage());
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    final ErrorCode errorCode;
+    final ApiError apiError;
+    final String message;
+
+    if (e instanceof BusinessException) {
+      BusinessException be = (BusinessException) e;
+      errorCode = be.getErrorCode();
+      message = resolveExceptionToMessage(be);
+    } else {
+      errorCode = CommonErrorCode.UNKNOWN;
+      message = e.getMessage();
+    }
+    apiError = ApiError.of(errorCode, message);
+    return ResponseEntity.status(errorCode.getStatus()).body(apiError);
   }
 
   private String resolveExceptionToMessage(BusinessException be) {
