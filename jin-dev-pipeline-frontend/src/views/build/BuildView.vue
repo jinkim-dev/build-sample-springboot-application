@@ -100,7 +100,7 @@
             >
           </v-avatar>
           <v-card-text class="text-center">
-            <BuildHistory :items="items"/>
+            <BuildHistory :items="items" :appId="id"/>
           </v-card-text>
         </material-card>
       </v-col>

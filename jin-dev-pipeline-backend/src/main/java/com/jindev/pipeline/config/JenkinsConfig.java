@@ -1,15 +1,16 @@
-package com.jindev.pipeline.configuration;
-
-import com.offbytwo.jenkins.JenkinsServer;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+package com.jindev.pipeline.config;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.offbytwo.jenkins.JenkinsServer;
+
 @Configuration
-public class JenkinsConfiguration {
+public class JenkinsConfig {
   @Value("${jenkins.url}")
   private String jenkinsUrl;
 

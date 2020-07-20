@@ -1,4 +1,4 @@
-package com.jindev.pipeline.configuration;
+package com.jindev.pipeline.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import com.hubspot.jinjava.Jinjava;
 
 @Configuration
-public class WebConfiguration {
+public class WebConfig {
 
   @Bean
   public ModelMapper modelMapper() {
@@ -18,5 +18,15 @@ public class WebConfiguration {
   public Jinjava jinjava() {
     return new Jinjava();
   }
+
+//  @Override
+//  public void addCorsMappings(CorsRegistry registry) {
+//    registry
+//        .addMapping("/**")
+//        .allowedOrigins("*")
+//        .allowedMethods("*")
+//        .allowCredentials(false)
+//        .maxAge(-1);
+//  }
 
 }

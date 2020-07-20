@@ -1,4 +1,4 @@
-package com.jindev.pipeline.configuration;
+package com.jindev.pipeline.config;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -8,21 +8,33 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import com.jindev.pipeline.properties.MessageProperties;
+
 @Configuration
-public class MessageConfiguration implements WebMvcConfigurer {
+public class MessageConfig implements WebMvcConfigurer {
 
   private MessageProperties messageProperties;
 
-  public MessageConfiguration(MessageProperties messageProperties) {
+    public MessageConfig(MessageProperties messageProperties) {
     this.messageProperties = messageProperties;
   }
 
-  @Override
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry
+            .addMapping("/**")
+            .allowedOrigins("*")
+            .allowCredentials(true)
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+    }
+
+    @Override
   public void addInterceptors(InterceptorRegistry registry) {
     // 언터셉터를 시스템 레지스트리에 등록
     registry.addInterceptor(localeChangeInterceptor());

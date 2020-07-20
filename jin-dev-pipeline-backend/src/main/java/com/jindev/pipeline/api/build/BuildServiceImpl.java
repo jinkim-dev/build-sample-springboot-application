@@ -1,14 +1,5 @@
 package com.jindev.pipeline.api.build;
 
-import com.google.common.collect.Maps;
-import com.hubspot.jinjava.Jinjava;
-import com.jindev.pipeline.jenkins.JenkinsAPi;
-import com.offbytwo.jenkins.model.JobWithDetails;
-import com.offbytwo.jenkins.model.QueueReference;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,6 +7,16 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+
+import com.google.common.collect.Maps;
+import com.hubspot.jinjava.Jinjava;
+import com.jindev.pipeline.jenkins.JenkinsAPi;
+import com.offbytwo.jenkins.model.JobWithDetails;
+import com.offbytwo.jenkins.model.QueueReference;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -99,4 +100,5 @@ public class BuildServiceImpl implements BuildService {
   public QueueReference build(String jobName) {
     return Optional.ofNullable(getJob(jobName)).map(jenkinsAPi::build).orElse(null);
   }
+
 }

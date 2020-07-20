@@ -17,7 +17,7 @@
         slot="items"
         slot-scope="{ item }"
         >
-        <td>{{ item.displayName }}</td>
+        <td><router-link :to="{ path: '/build/logView', query: { buildId: item.id, appId: appId }}">{{ item.displayName }}</router-link></td>
         <td>{{ item.building? 'Building' : 'Finished' }}</td>
         <td>{{ item.duration / 1000 + ' sec' }}</td>
         <td>{{ item.result }}</td>                
@@ -27,7 +27,8 @@
 <script>
 export default {
     props: {
-        items: Object
+        items: Object,
+        appId: Object
     }
 }
 </script>

@@ -23,5 +23,10 @@ export default [
     path: '/build/buildView',
     name: 'BuildView',
     view: 'build/BuildView'
+  },
+  {
+    path: '/build/logView',
+    name: 'LogView',
+    view: 'build/LogView'
   }
 ]

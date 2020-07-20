@@ -1,13 +1,15 @@
 package com.jindev.pipeline.jenkins;
 
+import java.util.Map;
+
+import org.springframework.stereotype.Component;
+
 import com.jindev.pipeline.handler.JenkinsErrorHandler;
 import com.offbytwo.jenkins.JenkinsServer;
+import com.offbytwo.jenkins.helper.BuildConsoleStreamListener;
 import com.offbytwo.jenkins.model.Job;
 import com.offbytwo.jenkins.model.JobWithDetails;
 import com.offbytwo.jenkins.model.QueueReference;
-import java.io.IOException;
-import java.util.Map;
-import org.springframework.stereotype.Component;
 
 /** @see <a href="https://wiki.jenkins.io/display/JENKINS/Remote+access+API>jenkins wiki</a> */
 @Component
@@ -23,7 +25,21 @@ public class JenkinsAPi {
     return executeWithResult(() -> jenkins.getJobs());
   }
 
-  public JobWithDetails getJob(String jobName) {
+    public void streamConsoleOutput(String jobName, int buildNumber,
+        BuildConsoleStreamListener stream) {
+        execute(
+            () ->
+                jenkins
+                    .getJob(jobName)
+                    .getBuilds()
+                    .get(buildNumber - 1)
+                    .details()
+                    .streamConsoleOutput(stream,
+                        1,
+                        360));
+    }
+
+    public JobWithDetails getJob(String jobName) {
     return executeWithResult(() -> jenkins.getJob(jobName));
   }
 
@@ -44,8 +60,9 @@ public class JenkinsAPi {
   }
 
   @FunctionalInterface
-  private interface Executor<E extends IOException> {
-    default void exec() {
+  private interface Executor<E extends Exception> {
+
+      default void exec() {
       try {
         run();
       } catch (Exception e) {
@@ -57,8 +74,9 @@ public class JenkinsAPi {
   }
 
   @FunctionalInterface
-  public interface ExecutorWithResult<T, E extends IOException> {
-    default T exec() {
+  public interface ExecutorWithResult<T, E extends Exception> {
+
+      default T exec() {
       try {
         return run();
       } catch (Exception e) {
