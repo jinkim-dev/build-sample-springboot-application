@@ -1,4 +1,4 @@
-package com.jindev.pipeline.handler;
+package com.jindev.pipeline.common;
 
 public interface ErrorCode {
     int getStatus();

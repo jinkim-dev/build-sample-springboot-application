@@ -1,9 +1,7 @@
-package com.jindev.pipeline.handler;
+package com.jindev.pipeline.common;
 
 import java.io.Serializable;
 import java.util.List;
-
-import org.springframework.validation.BindingResult;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

@@ -12,9 +12,10 @@ spring:
   datasource:
     data: classpath:data.sql
 jenkins:
-  url: http://localhost:8090/
+  url: http://10.20.200.201:32080/
   id: admin
-  password: 111f408e7a67229deb70e1485d13c21f15
+  password: Rsx7vBJxu7
+#  password: 111f408e7a67229deb70e1485d13c21f15
 message:
   locale: KR
   encoding: UTF-8

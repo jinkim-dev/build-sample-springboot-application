@@ -1,4 +1,4 @@
-package com.jindev.pipeline.handler;
+package com.jindev.pipeline.common;
 
 import org.springframework.validation.FieldError;
 

@@ -1,6 +1,6 @@
 package com.jindev.pipeline.jenkins;
 
-import com.jindev.pipeline.handler.ErrorCode;
+import com.jindev.pipeline.common.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

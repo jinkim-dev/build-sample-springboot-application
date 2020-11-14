@@ -1,4 +1,4 @@
-package com.jindev.pipeline.handler;
+package com.jindev.pipeline.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,5 +13,5 @@ public enum CommonErrorCode implements ErrorCode {
   UNKNOWN(500, "C006", "Unknown Error");
   private final int status;
   private final String code;
-  private final String message;
+  private final String description;
 }
