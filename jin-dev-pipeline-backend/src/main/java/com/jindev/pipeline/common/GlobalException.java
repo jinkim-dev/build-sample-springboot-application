@@ -22,10 +22,6 @@ public class GlobalException extends RuntimeException {
   }
 
   public GlobalException(ErrorCode errorCode, Throwable cause, Object[] args) {
-    this(errorCode, cause, args, null);
-  }
-
-  public GlobalException(ErrorCode errorCode, Throwable cause, Object[] args, HttpStatus status) {
     this.errorCode = errorCode;
     this.cause = cause;
     this.args = args;

@@ -51,7 +51,7 @@ public class BuildController {
             .map(
                 build -> {
                   JobWithDetails details = buildService.getJob(build.getAppName());
-                  return convertToDto(build, details);
+                    return convertToDto(build, details);
                 })
             .collect(Collectors.toList());
     map.put("builds", buildDtos);

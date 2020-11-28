@@ -14,7 +14,9 @@ import org.springframework.validation.annotation.Validated;
 
 import com.google.common.collect.Maps;
 import com.hubspot.jinjava.Jinjava;
+import com.jindev.pipeline.common.GlobalException;
 import com.jindev.pipeline.jenkins.JenkinsAPi;
+import com.jindev.pipeline.jenkins.JenkinsError;
 import com.offbytwo.jenkins.model.JobWithDetails;
 import com.offbytwo.jenkins.model.QueueReference;
 
@@ -57,33 +59,32 @@ public class BuildServiceImpl implements BuildService {
 
   @Override
   public void createJob(Build build) {
-    try {
-      String pipeline = renderPipeline(build);
-      String jobXml = renderJobXml(pipeline);
-      jenkinsAPi.createJob(build.getAppName(), jobXml);
-    } catch (IOException e) {
-      log.error(e.getMessage());
-    }
+    String pipeline = renderPipeline(build);
+    String jobXml = renderJobXml(pipeline);
+    jenkinsAPi.createJob(build.getAppName(), jobXml);
   }
 
-  private String renderJobXml(String script) throws IOException {
+  private String renderJobXml(String script) {
     Map<String, Object> context = Maps.newHashMap();
     context.put("script", script);
     return render("/templates/jenkins/config.xml", context);
   }
 
-  private String renderPipeline(Build build) throws IOException {
+  private String renderPipeline(Build build) {
     Map<String, Object> context = Maps.newHashMap();
     context.put("gitAddress", build.getGitAddress());
     return render("/templates/jenkins/jenkinsfile", context);
   }
 
-  private String render(String templatePath, Map<String, Object> context) throws IOException {
-    ClassPathResource resource = new ClassPathResource(templatePath);
-    Path path = Paths.get(resource.getURI());
-    String template = new String(Files.readAllBytes(path));
-
-    return jinjava.render(template, context);
+  private String render(String templatePath, Map<String, Object> context) {
+    try {
+      ClassPathResource resource = new ClassPathResource(templatePath);
+      Path path = Paths.get(resource.getURI());
+      String template = new String(Files.readAllBytes(path));
+      return jinjava.render(template, context);
+    } catch (IOException ie) {
+     throw new GlobalException(JenkinsError.RESOURCE_FILE_ACCESS_FAIL, ie.getCause());
+    }
   }
 
   @Override

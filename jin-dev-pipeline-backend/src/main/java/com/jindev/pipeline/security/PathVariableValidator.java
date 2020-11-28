@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PathVariableValidator {
     public boolean accessTest(Authentication authentication, String build) {
-        System.out.println("build : " + build);
+//        System.out.println("build : " + build);
         return true;
     }
 }

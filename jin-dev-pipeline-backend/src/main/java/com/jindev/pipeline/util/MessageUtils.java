@@ -2,20 +2,20 @@ package com.jindev.pipeline.util;
 
 import java.util.Locale;
 
-import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.context.MessageSource;
 
 import com.jindev.pipeline.common.StaticContextAccessor;
 
 public class MessageUtils {
 
-  private static final MessageSourceAccessor messageSourceAccessor;
+  private static MessageSource messageSource;
 
   static {
-    messageSourceAccessor = StaticContextAccessor
-      .getBean(MessageSourceAccessor.class);
+    messageSource = StaticContextAccessor
+      .getBean(MessageSource.class);
   }
 
   public static String getMessage(String code, Object[] args) {
-    return messageSourceAccessor.getMessage(code, args, code, Locale.getDefault());
+    return messageSource.getMessage(code, args, code, Locale.getDefault());
   }
 }
